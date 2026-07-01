@@ -1,14 +1,8 @@
 import { useState } from 'react'
 
-const Display = ({counter}) => <div>{props.counter}</div>
+const Display = props => <div>{props.value}</div>
 
-// const Button = ({onClick, text}) => <button onClick={onClick}>{text}</button>
-const Button = (props) => {
-  console.log('value of props', props)
-  return (
-  <button onClick={props.onClick}>{props.text}</button>
-  )
-}
+const Button = (props) => ( <button onClick={props.onClick}>{props.text}</button> )
 
 const History = (props) => {
   if (props.allClicks.length === 0 ) {
@@ -23,6 +17,9 @@ const History = (props) => {
   )
 }
 }
+
+
+
 const App = () => {
   const [ left, setLeft ] = useState(0)
   const [ right, setRight ] = useState(0)
@@ -44,19 +41,25 @@ const App = () => {
   
   const [ value, setValue ] = useState(10)
 
-  const hello = (who) => () => console.log('hello', who)
+  const setToValue = (newValue) => {
+    console.log('New value:', newValue)
+    setValue(newValue)
+  }
+
+  const resetValue = () => {
+    setValue(10)
+  }
   
+
   return (
     <>
-      {left}
-      <Button onClick={handleLeftClick} text='Left' />
-      <Button onClick={handleRightClick} text='Right' />
-      {right}
+      <Display value={value} />
+      
+      <Button onClick={() => setToValue(100)} text="100" />
+      <Button onClick={resetValue} text='Reset' />
+      <Button onClick={() => setToValue(value + 1)} text='Increment' />
       <History allClicks={allClicks} />
       <p>Total: {total}</p>
-      <button onClick={hello('You')}>button</button>
-      <button onClick={hello('World')}>button</button>
-      <button onClick={hello('Function')}>button</button>
     </>
   )
 }
