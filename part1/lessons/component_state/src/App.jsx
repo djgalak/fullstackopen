@@ -45,10 +45,6 @@ const App = () => {
     console.log('New value:', newValue)
     setValue(newValue)
   }
-
-  const resetValue = () => {
-    setValue(10)
-  }
   
 
   return (
@@ -56,7 +52,7 @@ const App = () => {
       <Display value={value} />
       
       <Button onClick={() => setToValue(100)} text="100" />
-      <Button onClick={resetValue} text='Reset' />
+      <Button onClick={() => setToValue(0)} text='Reset' />
       <Button onClick={() => setToValue(value + 1)} text='Increment' />
       <History allClicks={allClicks} />
       <p>Total: {total}</p>

@@ -35,6 +35,7 @@ const App = () => {
         setMaxVote(selected)
     }
     setVotes(newVotes)
+    
   }
   return (
     <div>
