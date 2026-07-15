@@ -1,9 +1,13 @@
-const Persons = (props) => {
+const Persons = ({list,filter,deletePerson}) => {
     return (
         <div>
-        {props.list
-        .filter((person) => person.name.toLowerCase().includes(props.filter.toLowerCase()))
-        .map( person => <div key={person.name}>{person.name} {person.number}</div>)}
+        {list
+        .filter((person) => person.name.toLowerCase().includes(filter.toLowerCase()))
+        .map( person => 
+            <div key={person.name}>
+                {person.name} {person.number}
+                <button type="submit" onClick={() => deletePerson(person.id)}>delete</button>
+            </div>)}
         </div>
     )
 }

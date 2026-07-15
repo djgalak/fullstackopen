@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import personService from './Services/persons'
 
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
+import axios from 'axios'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -13,17 +14,11 @@ const App = () => {
   const [filter, setFilter] = useState('')
 
   useEffect(() => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then((response) => {
-        console.log('fulfilled with', response.data)
-        setPersons(response.data)
-      })
-
+    personService
+      .getAll()
+      .then(initialPersons => setPersons(initialPersons))
   },[])
 
-  console.log('rendered', persons.length, 'entries')
 
   const handleOnSave = (event) => {
     event.preventDefault()
@@ -32,17 +27,35 @@ const App = () => {
       number: newNumber
     }
 
-    persons.find((person) => person.name === newName) 
-      ? alert(`${newName} is already added to the phonebook`) 
-      : setPersons(persons.concat(newObject))
-
-    setNewNumber('')
-    setNewName('')
+    if (
+      persons.find((person) => person.name === newName) 
+    ) { 
+        alert(`${newName} is already added to the phonebook`) 
+    } else
+    {
+      personService
+        .create(newObject)
+        .then((returnedPerson) => {
+          setPersons(persons.concat(returnedPerson))
+          setNewNumber('')
+          setNewName('')
+        })
+    }
   }
 
   const handleFilter = (event) => {
     console.log('Filter', event.target.value)
     setFilter(event.target.value)
+  }
+
+  const handleDelete = (id) => {
+    const personToDelete = persons.find(person => person.id === id)
+    console.log('Deleting', personToDelete.name)
+    personService
+      .remove(id)
+      .then(removedPerson => {
+        setPersons(persons.filter(person => person.id !== id))
+      })
   }
 
   return (
@@ -57,7 +70,7 @@ const App = () => {
           onChangeNumber={() => setNewNumber(event.target.value)}
           onSubmit={handleOnSave} />
       <h3>Numbers</h3>
-      <Persons list={persons} filter={filter}/>
+      <Persons list={persons} filter={filter} deletePerson={handleDelete}/>
     </>
   )
 }
