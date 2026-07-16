@@ -27,22 +27,27 @@ const App = () => {
       number: newNumber
     }
 
-    if (
-      persons.find((person) => person.name === newName) 
-    ) { 
-        alert(`${newName} is already added to the phonebook`) 
-    } else
-    {
-      personService
-        .create(newObject)
-        .then((returnedPerson) => {
-          setPersons(persons.concat(returnedPerson))
-          setNewNumber('')
-          setNewName('')
-        })
-    }
+    persons.find((person) => person.name === newName) ? updatePerson(newObject) : addPerson(newObject)
   }
 
+  const updatePerson = (updatePerson) => {
+    if (confirm(`${updatePerson.name} is already added to phonebook, replace old number with a new one?`)) {
+      personService
+      .update(persons.find(person => person.name === updatePerson.name).id, updatePerson)
+      .then(returnedPerson => {
+        setPersons(persons.map(person => person.id === returnedPerson.id ? returnedPerson : person))
+      })}
+  }
+
+  const addPerson = (newPerson) => {
+    personService
+      .create(newPerson)
+      .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson))
+        setNewNumber('')
+        setNewName('')
+      })
+  }
   const handleFilter = (event) => {
     console.log('Filter', event.target.value)
     setFilter(event.target.value)
@@ -50,12 +55,13 @@ const App = () => {
 
   const handleDelete = (id) => {
     const personToDelete = persons.find(person => person.id === id)
-    console.log('Deleting', personToDelete.name)
-    personService
-      .remove(id)
-      .then(removedPerson => {
-        setPersons(persons.filter(person => person.id !== id))
-      })
+    if (confirm(`Delete ${personToDelete.name} ?`)) {
+      personService
+        .remove(id)
+        .then(removedPerson => {
+          setPersons(persons.filter(person => person.id !== id))
+        })
+    }
   }
 
   return (
