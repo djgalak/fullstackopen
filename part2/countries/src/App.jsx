@@ -26,15 +26,16 @@ const App = () => {
   }
   const handleFilter = (event) => {
     event.preventDefault()
-    const countriesFiltered = countries.filter(country => country.name.common.toLowerCase().includes(event.target.value.toLowerCase()))
     setCountryFilter(event.target.value)
-
   }
 
+  const handleShowDetails = (cca2) => {
+    console.log('Country', cca2)
+  }
   return (
     <>
       <CountryForm countryFilter={countryFilter} onFilterChange={handleFilter}/>
-      <Countries countries={countries} filter={countryFilter}/>
+      <Countries countries={countries} filter={countryFilter} handleShowDetails={handleShowDetails}/>
     </>
   )
 }
