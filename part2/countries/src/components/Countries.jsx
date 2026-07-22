@@ -10,14 +10,13 @@ const Countries = ({countries, filter, onShow}) => {
     if (filteredCountries.length > 10) {
         return (<>Too many matches, specify another filter</>)
     }
-/*
+
     if (filteredCountries.length === 1) {
-        console.log('Details:', filteredCountries[0].languages)
         return(
-            <CountryDetails country={filteredCountries[0]} />
+        <></>
         )
     }
-*/
+
     return (
         <div>
             {filteredCountries
