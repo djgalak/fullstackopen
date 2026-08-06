@@ -29,6 +29,22 @@ app.get('/api/persons', (request, response) => {
     response.json(persons)
 })
 
+app.get('/info', (request, response) => {
+    const numberPersons = persons.length
+    const receivedAt = new Date()
+    const infoPage = `<div>Phonebook has info for ${numberPersons} people</div><div>${receivedAt}</div>`
+    response.send(infoPage)
+})
+
+app.get('/api/persons/:id', (request, response) => {
+    console.log(`requested`)
+    const id = request.params.id
+    const person = persons.find( person => person.id === id)
+    person
+        ? response.json(person)
+        : response.status(404).end()
+})
+
 const PORT = 3001
 app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`)
