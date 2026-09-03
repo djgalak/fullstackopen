@@ -92,6 +92,7 @@ app.post('/api/persons', (request,response) => {
 })
 
 app.delete('/api/persons/:id', (request, response) => {
+    console.log('entering deletion')
     const id = request.params.id
     console.log(`id: ${id}`)
     persons = persons.filter( person => person.id !== id)
