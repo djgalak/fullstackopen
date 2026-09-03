@@ -12,3 +12,15 @@ content-type: application/json
     "name": "Olivier Huet",
     "number": "201201201"
 }
+
+###
+POST https://fullstackopen-phonebook-dkhf.onrender.com/api/persons/ HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Olivier Huet",
+    "number": "201201201"
+}
+
+###
+DELETE https://fullstackopen-phonebook-dkhf.onrender.com/api/persons/793689
