@@ -25,9 +25,10 @@ const App = () => {
   const addNote = (event) => {
     event.preventDefault()
     console.log('button clicked', event.target)
+    console.log(`new note: ${newNote}`)
     const noteObject = {
+      important: Math.random() < 0.5,
       content: newNote,
-      important: Math.random() < 0.5
     }
 
     noteService
