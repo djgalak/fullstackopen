@@ -13,6 +13,8 @@
   "author": "Olivier",
   "license": "MIT",
   "dependencies": {
-    "express": "^5.2.1"
+    "dotenv": "^18.0.0",
+    "express": "^5.2.1",
+    "mongoose": "^9.9.4"
   }
 }

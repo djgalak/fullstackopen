@@ -1,5 +1,29 @@
+// const mongoose = require('mongoose')
+require('dotenv').config()
 const express = require('express')
+const Note = require('./models/note')
 const app = express()
+
+const PORT = process.env.PORT
+/*
+// Connecting to MongoDB
+const password = process.argv[2]
+const url = `mongodb+srv://olivhuet_db_user:${password}@cluster0.clhx5yi.mongodb.net/NoteApp?appName=Cluster0`
+mongoose.set('strictQuery', false)
+mongoose.connect(url, {family: 4})
+const noteSchema = new mongoose.Schema({
+  content: String,
+  important: Boolean
+})
+noteSchema.set('toJSON', {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString()
+    delete returnedObject._id
+    delete returnedObject.__v
+  }
+})
+const Note = mongoose.model('Note', noteSchema)
+*/
 
 app.use(express.static('dist'))
 app.use(express.json())
@@ -71,10 +95,11 @@ app.delete('/api/notes/:id', (request, response) => {
 })
 
 app.get('/api/notes', (request, response) => {
-  response.json(notes)
+  Note.find({}).then(notes => {
+    response.json(notes)
+  })
 })
 
-const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
