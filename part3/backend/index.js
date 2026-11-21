@@ -4,7 +4,6 @@ const express = require('express')
 const Note = require('./models/note')
 const app = express()
 
-const PORT = process.env.PORT
 /*
 // Connecting to MongoDB
 const password = process.argv[2]
@@ -27,7 +26,7 @@ const Note = mongoose.model('Note', noteSchema)
 
 app.use(express.static('dist'))
 app.use(express.json())
-
+/*
 let notes = [
   {
     id: "1",
@@ -45,7 +44,7 @@ let notes = [
     important: true
   }
 ]
-
+*/
 app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1')
 })
@@ -100,6 +99,7 @@ app.get('/api/notes', (request, response) => {
   })
 })
 
+const PORT = process.env.PORT
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })

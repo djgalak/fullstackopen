@@ -1,34 +1,43 @@
-const Countries = ({countries, filter, onShow}) => {
-    const filteredCountries = countries.filter(country => country.name.common.toLowerCase().includes(filter.toLowerCase()))
+import {useState} from 'react'
+import Country from './Country'
 
-    if (filter === '') {
-        return (
-            <></>
-        )
+const Countries = ({countries}) => {
+    const [showCountry, setShowCountry] = useState(null)
+
+    // Event Handler
+    const handleShowCountry = (id) => {
+        const countryToShow = countries.find(country => country.cca2 === id)
+        setShowCountry(countryToShow)
     }
+   // More than 10
+   if (countries.length > 10) {
+    return (
+        <p>Too many countries</p>
+    )
+   }
 
-    if (filteredCountries.length > 10) {
-        return (<>Too many matches, specify another filter</>)
-    }
+   // No Country
+   if (countries.length === 0 ) {
+    return (
+        <p>No Country Found</p>
+    )
+   } 
 
-    if (filteredCountries.length === 1) {
-        return(
-        <></>
-        )
-    }
+   if (countries.length === 1){
+    return (
+        <Country country={countries[0]} />
+    )
+   }
 
+   // Display list of countries
     return (
         <div>
-            {filteredCountries
-                .map( country => {
-                    return (
-                        <div key={country.cca2}>{country.name.common}
-                            <button type="submit" onClick={() => onShow(country)}>Show</button>
-                        </div>
-                     )})
-            }
+            {countries.map((country) => {
+                return (
+                <li key={country.cca2}>{country.name.common} <button onClick={() => handleShowCountry(country.cca2)}>Show</button></li>
+            )})}
+            <Country country={showCountry} />
         </div>
     )
 }
-
 export default Countries
