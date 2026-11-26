@@ -1,7 +1,9 @@
 const express = require('express')
+const middleware = require('./lib/middleware')
 const app = express()
 
 app.use(express.json())
+app.use(middleware.requestLogger)
 
 let notes = [
   {
@@ -68,6 +70,8 @@ app.delete('/api/notes/:id', (request, response) => {
     notes = notes.filter(note => note.id !== id)
     response.status(204).end()
 })
+
+app.use(middleware.unknownEndpoint)
 
 const PORT = 3001
 app.listen(PORT, () => {
