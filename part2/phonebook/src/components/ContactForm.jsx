@@ -1,4 +1,5 @@
 import {useState} from 'react'
+import contactService from '../services/contacts'
 
 const ContactForm = ({contacts, setContacts}) => {
     const [newName, setNewName] = useState('')
@@ -6,7 +7,6 @@ const ContactForm = ({contacts, setContacts}) => {
 
     const handleAddClick = (event) => {
         event.preventDefault()
-        console.log(`${newName} ${newNumber}`)
 
         if (contacts.find(contact => contact.name.toLowerCase() === newName.toLowerCase())) {
             alert(`${newName} already exists in Phonebook`)
@@ -19,7 +19,14 @@ const ContactForm = ({contacts, setContacts}) => {
             id: String(contacts.length + 1)
         }
 
-        setContacts(contacts.concat(newContact))
+        contactService
+            .create(newContact)
+            .then(createdContact => {
+                setContacts(contacts.concat(createdContact))
+                setNewName('')
+                setNewNumber('')
+            })
+
     }
 
     return (
