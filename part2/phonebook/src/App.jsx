@@ -16,7 +16,7 @@ const App = () => {
       })
   },[])
 
-  const contactsToShow = persons.filter(contact => contact.name.toLowerCase().includes(filter.toLowerCase()))
+  const contactsToShow = persons.filter(contact => contact.name.toLowerCase().includes(filter.toLowerCase())) 
 
   return (
     <div>

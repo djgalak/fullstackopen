@@ -1,4 +1,3 @@
-import {useState} from 'react'
 import Contact from './Contact'
 import contactService from '../services/contacts'
 
@@ -8,8 +7,8 @@ const Contacts = ({contacts, setContacts}) => {
         event.preventDefault()
         contactService
             .remove(id)
-            .then(removedContact => {
-                setContacts(contacts.filter(contact => contact.id !== removedContact.id))
+            .then(removedId => {
+                setContacts(contacts.filter(contact => contact.id !== removedId))
             })
     }
 
